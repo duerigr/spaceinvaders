@@ -11,8 +11,8 @@ from ui.alien import Alien
 class Main:
 
     def __init__(self):
+        pygame.mixer.pre_init(frequency=22050, size=-16, channels=2, buffer=128)
         pygame.init()
-        pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
         pygame.key.set_repeat(0, 0)
         self.surface = pygame.display.set_mode((Config.DISPLAY_WIDTH, Config.DISPLAY_HEIGHT))
         self.player_rect = Rect(0,
@@ -31,7 +31,7 @@ class Main:
         self.image = pygame.image.load(Config.MAIN_MENU_BACK)
         self.successtime = None
         pygame.mixer.music.load(Config.SOUND_MUSIC)
-        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.set_volume(0.3)
         self.ticks = 0
         self.__init_aliens()
         self.__game()

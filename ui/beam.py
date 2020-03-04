@@ -24,7 +24,7 @@ class Beam(Sprite):
         self.rect.midbottom = startpos
 
         self.sound = Sound(Config.SOUND_BEAM)
-        self.sound.set_volume(0.6)
+        self.sound.set_volume(0.4)
         self.sound_channel = Channel(2)
         self.sound_channel.play(self.sound)
 
