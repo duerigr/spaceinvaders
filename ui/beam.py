@@ -30,7 +30,7 @@ class Beam(Sprite):
 
     def move_up(self, outer_rect: Rect):
         new_pos = (self.rect.x, self.rect.y - self.step)
-        if outer_rect.collidepoint(new_pos):
+        if outer_rect.collidepoint(new_pos[0], new_pos[1]):
             self.rect.y = new_pos[1]
             return True
         return False

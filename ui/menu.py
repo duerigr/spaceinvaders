@@ -1,4 +1,3 @@
-import pygame
 import pygameMenu
 from ui.config import Config
 

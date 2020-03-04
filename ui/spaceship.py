@@ -21,28 +21,28 @@ class Spaceship(Sprite):
 
     def move_down(self, outer_rect: Rect):
         new_pos = (self.rect.x, self.rect.y + self.step + self.height)
-        if outer_rect.collidepoint(new_pos):
+        if outer_rect.collidepoint(new_pos[0], new_pos[1]):
             self.rect.y = new_pos[1] - self.height
             return True
         return False
 
     def move_up(self, outer_rect: Rect):
         new_pos = (self.rect.x, self.rect.y - self.step)
-        if outer_rect.collidepoint(new_pos):
+        if outer_rect.collidepoint(new_pos[0], new_pos[1]):
             self.rect.y = new_pos[1]
             return True
         return False
 
     def move_right(self, outer_rect: Rect):
         new_pos = (self.rect.x + self.step + self.width, self.rect.y)
-        if outer_rect.collidepoint(new_pos):
+        if outer_rect.collidepoint(new_pos[0], new_pos[1]):
             self.rect.x = new_pos[0] - self.width
             return True
         return False
 
     def move_left(self, outer_rect: Rect):
         new_pos = (self.rect.x - self.step, self.rect.y)
-        if outer_rect.collidepoint(new_pos):
+        if outer_rect.collidepoint(new_pos[0], new_pos[1]):
             self.rect.x = new_pos[0]
             return True
         return False
