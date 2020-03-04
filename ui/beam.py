@@ -1,6 +1,10 @@
 from pygame.sprite import Sprite
 from pygame import Surface
 from pygame import Rect
+from pygame.mixer import Sound
+from pygame.mixer import Channel
+
+from ui.config import Config
 
 
 class Beam(Sprite):
@@ -19,9 +23,18 @@ class Beam(Sprite):
         self.rect = self.image.get_rect()
         self.rect.midbottom = startpos
 
+        self.sound = Sound(Config.SOUND_BEAM)
+        self.sound.set_volume(0.6)
+        self.sound_channel = Channel(2)
+        self.sound_channel.play(self.sound)
+
     def move_up(self, outer_rect: Rect):
         new_pos = (self.rect.x, self.rect.y - self.step)
         if outer_rect.collidepoint(new_pos):
             self.rect.y = new_pos[1]
             return True
         return False
+
+    def noise(self):
+        # self.sound_channel.play(self.sound)
+        pass

@@ -12,6 +12,7 @@ class Main:
 
     def __init__(self):
         pygame.init()
+        pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
         pygame.key.set_repeat(0, 0)
         self.surface = pygame.display.set_mode((Config.DISPLAY_WIDTH, Config.DISPLAY_HEIGHT))
         self.player_rect = Rect(0,
@@ -29,6 +30,9 @@ class Main:
         self.beam = None
         self.image = pygame.image.load(Config.MAIN_MENU_BACK)
         self.successtime = None
+        pygame.mixer.music.load(Config.SOUND_MUSIC)
+        pygame.mixer.music.set_volume(0.4)
+        self.ticks = 0
         self.__init_aliens()
         self.__game()
 
@@ -75,6 +79,7 @@ class Main:
             self.lasers.draw(self.surface)
             self.__handle_end()
             pygame.display.flip()
+            self.ticks += 60
             clock.tick(60)
 
     def __handle_keys(self):
@@ -88,6 +93,7 @@ class Main:
                 self.lasers.add(self.beam)
         if keys[pygame.K_ESCAPE] and self.menu.is_disabled():
             pygame.key.set_repeat(0, 0)
+            pygame.mixer.music.pause()
             self.menu.enable()
         if keys[pygame.K_DOWN]:
             self.spaceship.move_down(self.player_rect)
@@ -115,7 +121,7 @@ class Main:
     def __handle_end(self):
         if len(self.enemies.sprites()) == 0:
             if self.successtime is None:
-                self.successtime = str(pygame.time.get_ticks() // 1000)
+                self.successtime = str(self.ticks // 1000)
             font = pygame.font.Font(Config.FONT, Config.FONT_SIZE)
             textsurf = font.render("success time " + self.successtime + " sec", True, (255, 255, 255))
             textrect = textsurf.get_rect()
@@ -124,6 +130,7 @@ class Main:
 
     def __handle_menu_start(self):
         self.menu.disable()
+        pygame.mixer.music.play(loops=-1)
         self.surface.blit(self.image, self.surface.get_rect())
         if self.spaceship is not None:
             self.spaceship.kill()
@@ -136,9 +143,11 @@ class Main:
         self.enemies.draw(self.surface)
         pygame.key.set_repeat(1, 1)
         self.successtime = None
+        self.ticks = 0
 
     def __handle_menu_continue(self):
         self.menu.disable()
+        pygame.mixer.music.unpause()
         self.surface.blit(self.image, self.surface.get_rect())
         self.player.draw(self.surface)
         self.enemies.draw(self.surface)
